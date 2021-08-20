@@ -26,9 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (localStorage.getItem('items')) {
-      this.items = [...JSON.parse(localStorage.getItem('items'))];
-    }
     this.getTodos();
     this.getNewTodos();
     this.checkTodosToRemove();
@@ -53,9 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
   checkTodosToEdit() {
     this.editItem$Sub = this.todosService.editItem$.subscribe((item: TodoModel) => {
       if(item) {
-        for (const i of this.items) {
+        for (let i of this.items) {
           if (i.id === item.id) {
-            i.completed = !item.completed;
+            i = item;
           }
         }
       }

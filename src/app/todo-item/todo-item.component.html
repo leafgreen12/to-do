@@ -1,7 +1,10 @@
 <div class="list-item" [class.completed]="item.completed">
   <div>
-    <input [id]="item.id" type="checkbox" (change)="toggleStatus()" [checked]="item.completed">
-    <label [for]="item.id">{{ item.title }}</label>
+    <input *ngIf="!enableEdit" [id]="item.id" type="checkbox" (change)="toggleStatus()" [checked]="item.completed">
+    <label class="label-title" *ngIf="!enableEdit" [for]="item.id">{{ item.title }}</label>
+    <button class="button-edit" *ngIf="!enableEdit && !item.completed" type="button" (click)="enableEdit = !enableEdit">Edit</button>
+    <button class="button-done" *ngIf="enableEdit" type="button" (click)="edit()">Done</button>
+    <input *ngIf="enableEdit" [(ngModel)]="changeValue" type="text">
   </div>
   <button (click)="removeItem()" type="button">X</button>
 </div>

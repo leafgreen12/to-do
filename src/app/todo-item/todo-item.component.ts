@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TodoModel} from '../core/interfaces/todo.interface';
 import {TodosService} from '../core/services/todos.service';
 
@@ -7,12 +7,16 @@ import {TodosService} from '../core/services/todos.service';
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss']
 })
-export class TodoItemComponent {
+export class TodoItemComponent implements OnInit {
   @Input() item: TodoModel;
+  changeValue: string;
+  enableEdit: boolean;
 
-  constructor(private todosService:TodosService) {}
+  constructor(private todosService:TodosService) {
+  }
 
   toggleStatus() {
+    this.item.completed = !this.item.completed;
     this.todosService.editItem(this.item);
   }
 
@@ -20,4 +24,13 @@ export class TodoItemComponent {
     this.todosService.removeItem(this.item);
   }
 
+  ngOnInit(): void {
+    this.changeValue = this.item.title;
+  }
+
+  edit() {
+    this.item.title = this.changeValue;
+    this.todosService.editItem(this.item);
+    this.enableEdit = false;
+  }
 }

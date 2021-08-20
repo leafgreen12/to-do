@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {TodoModel} from '../interfaces/todo.interface';
-import {filter, map, tap} from "rxjs/operators";
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,13 @@ export class TodosService {
 
   constructor(private http:HttpClient) { }
 
-  private _editItem = new EventEmitter();
+  private _editItem = new Subject();
   editItem$ = this._editItem.asObservable();
 
-  private _removeItem = new EventEmitter();
+  private _removeItem = new Subject();
   removeItem$ = this._removeItem.asObservable();
 
-  private _addItem = new EventEmitter();
+  private _addItem = new Subject();
   addItem$ = this._addItem.asObservable();
 
   getTodos() {

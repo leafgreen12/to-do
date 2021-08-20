@@ -43,4 +43,28 @@ describe('TodoItemComponent', () => {
         fixture.detectChanges();
         expect(compiled.query(By.css('.completed'))).toBeFalsy(null);
     });
+
+    it('check enable edit item', () => {
+        console.log(fixture , 'item');
+        component.item = {
+            userId: 1,
+            id: 1,
+            title: 'delectus aut autem',
+            completed: false
+        } as TodoModel;
+        component.enableEdit = false;
+        fixture.detectChanges();
+        const compiled = fixture.debugElement
+        const buttonEdit = compiled.query(By.css('.button-edit')).nativeElement;
+        buttonEdit.dispatchEvent(new Event('click'));
+        fixture.detectChanges();
+        expect(compiled.query(By.css('.button-done'))).toBeTruthy(null);
+
+        const buttonDone = compiled.query(By.css('.button-done')).nativeElement;
+        component.changeValue = 'xxxxx';
+        buttonDone.dispatchEvent(new Event('click'));
+        fixture.detectChanges();
+        expect(compiled.query(By.css('.button-edit'))).toBeTruthy(null);
+        expect(compiled.query(By.css('.label-title')).nativeElement.textContent).toEqual('xxxxx');
+    });
 });
